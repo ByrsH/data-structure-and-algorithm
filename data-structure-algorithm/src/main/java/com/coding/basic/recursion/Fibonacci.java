@@ -11,6 +11,14 @@ public class Fibonacci {
         return recursion(n-1) + recursion(n-2);
     }
 
+    public int tailRecursion(int n, int pre, int result) {
+        if (n == 1) {
+            return result;
+        }else {
+            return tailRecursion(n-1, result, pre + result);
+        }
+    }
+
     public int loop(int n) {
         if (n <= 1) {
             return n;

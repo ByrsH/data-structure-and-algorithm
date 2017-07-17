@@ -11,9 +11,12 @@ public class TestFibonacci {
         Long twoTime = System.currentTimeMillis();
         int loopResult = fibonacci.loop(40);
         Long threeTime = System.currentTimeMillis();
-        System.out.println(recuResult + " " + loopResult);
+        int tailResult = fibonacci.tailRecursion(40, 0, 1);
+        Long fourTime = System.currentTimeMillis();
+        System.out.println(recuResult + " " + loopResult + " " + tailResult);
         System.out.println(twoTime - oneTime);
         System.out.println(threeTime - twoTime);
+        System.out.println(fourTime - threeTime);
     }
 }
                 
