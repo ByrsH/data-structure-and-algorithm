@@ -1,6 +1,6 @@
 package com.coding.basic.stack;
 
-import com.coding.basic.ArrayList;
+import com.coding.basic.array.ArrayList;
 
 /**
  * Created by yrs on 2017/2/25.
