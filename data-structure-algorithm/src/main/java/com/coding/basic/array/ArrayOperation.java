@@ -4,7 +4,7 @@ import java.util.*;
 import java.util.ArrayList;
 
 /**
- * 数组的交集、差集、并集等运算
+ * 列表的交集、差集运算
  *
  * @author ByrsH
  * @create 2017-12-19 23:17
@@ -12,110 +12,65 @@ import java.util.ArrayList;
 
 public class ArrayOperation {
 
-    public static void sameAndDifferentOperation(List<Integer> a, List<Integer> b, LinkedList<Integer> sameItems,
-                                                 Integer[] onlyAItems, LinkedList<Integer> onlyBItems){
+    public static void sameAndDifferentOperation(List<Integer> a, List<Integer> b, List<Integer> sameItems,
+                                                 List<Integer> onlyAItems, List<Integer> onlyBItems){
         if (isEmpty(a) && isEmpty(b)){
             return;
         }
         if (isEmpty(a)){
-            onlyBItems = (LinkedList<Integer>) b;
+            HashSet<Integer> hs = new HashSet<>(b);
+            onlyBItems.clear();
+            onlyBItems.addAll(hs);
         }
         if (isEmpty(b)){
-            onlyAItems = new Integer[a.size()];
-            for (int i=0; i<onlyAItems.length; i++){
-                onlyAItems[i] = a.get(i);
-            }
+            HashSet<Integer> hs = new HashSet<>(a);
+            onlyAItems.clear();
+            onlyAItems.addAll(hs);
         }
 
         HashMap<Integer, Integer> map = new HashMap<>();
+        Set<Integer> sameItemSet = new HashSet<>();
+        Set<Integer> onlyBItemSet = new HashSet<>();
         for (Integer item: a){
-            if (!map.containsKey(item)){
-                map.put(item, item);
-            }
+            map.put(item, item);
         }
 
         for (Integer item: b){
             if (map.containsKey(item)){
-                //防止重复添加
-                //if (!sameItems.contains(item)){
-                    sameItems.add(item);
-                //}
+                sameItemSet.add(item);
             }else {
-                //防止重复添加
-                //if (!onlyBItems.contains(item)){
-                    onlyBItems.add(item);
-                //}
-
+                onlyBItemSet.add(item);
             }
         }
 
-        HashSet h = new HashSet(sameItems);
-        sameItems.clear();
-        sameItems.addAll(h);
-
-        HashSet h2 = new HashSet(onlyBItems);
-        onlyBItems.clear();
-        onlyBItems.addAll(h2);
+        //去除重复元素
+        sameItems.addAll(sameItemSet);
+        onlyBItems.addAll(onlyBItemSet);
 
         for (Integer item: sameItems){
             map.remove(item);
         }
+        onlyAItems.addAll(map.values());
 
-        onlyAItems = new Integer[map.size()];
-        map.values().toArray(onlyAItems);
     }
 
-    public static void sameAndDifferentOperation(ArrayList<Integer> a, ArrayList<Integer> b, ArrayList<Integer> sameItems){
-        if (isEmpty(a) && isEmpty(b)){
-            return;
-        }
-        if (isEmpty(a)){
-            HashSet h = new HashSet(b);
-            b.clear();
-            b.addAll(h);
-        }
-        if (isEmpty(b)){
-            HashSet h = new HashSet(a);
-            a.clear();
-            a.addAll(h);
+    public static void sameAndDifferentOperation2(List<CarProvinceMarket> a, List<CarProvinceMarket> b, List<CarProvinceMarket> sameItems,
+                                                 List<CarProvinceMarket> onlyAItems, List<CarProvinceMarket> onlyBItems){
+        HashMap<Integer, CarProvinceMarket> map = new HashMap<>();
+        for (CarProvinceMarket item: a){
+            map.put(item.getProvinceId(), item);
         }
 
-        HashMap<Integer, Integer> map = new HashMap<>();
-        for (int i=0; i<a.size(); i++){
-            if (!map.containsKey(a.get(i))){
-                map.put(a.get(i), a.get(i));
-            }else{
-                a.remove(i);
-                i--;
-            }
-        }
-        System.out.println();
-        for (int i=0; i<b.size(); i++){
-            if (map.containsKey(b.get(i))){
-                //防止重复添加
-                //if (!sameItems.contains(item)){
-                sameItems.add(b.get(i));
-                b.remove(i);
-                i--;
-                //}
+        for (CarProvinceMarket item: b){
+            if (map.containsKey(item.getProvinceId())){
+                sameItems.add(item);
             }else {
-                //防止重复添加
-                //if (!onlyBItems.contains(item)){
-
-                //}
-
+                onlyBItems.add(item);
             }
         }
 
-        HashSet h = new HashSet(sameItems);
-        sameItems.clear();
-        sameItems.addAll(h);
 
     }
-
-//    public static void sameAndDifferentOperation(List<Integer> a, List<Integer> b, ){
-//
-//    }
 
     public static Boolean isEmpty(List<Integer> a){
         if (a == null || a.size() == 0){
@@ -128,20 +83,25 @@ public class ArrayOperation {
     public static void main(String [] args){
         ArrayList<Integer> a = new ArrayList<>();
         ArrayList<Integer> b = new ArrayList<>();
-        for (int i=0; i<400000; i++){
+        for (int i=0; i<1000000; i++){
             a.add(i + 1);
             b.add(i + 2);
         }
 
-        ArrayList<Integer> sameItems = new ArrayList<>();
+        LinkedList<Integer> sameItems = new LinkedList<>();
+        LinkedList<Integer> onlyAItems = new LinkedList<>();
         LinkedList<Integer> onlyBItems = new LinkedList<>();
-        Integer[] onlyAItems = null;
         Long start = System.currentTimeMillis();
-        sameAndDifferentOperation(a, b, sameItems);
+        sameAndDifferentOperation(a, b, sameItems, onlyAItems, onlyBItems);
 
         System.out.println("time = " + (System.currentTimeMillis() - start));
 
+        System.out.println("======================");
 
+        HashMap<Integer, Integer> set = new HashMap<>();
+        set.put(1000000,1);
+        set.put(1000000,2);
+        System.out.println(set.size());
 
     }
 }
