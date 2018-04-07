@@ -11,6 +11,15 @@ public class CarProvinceMarket {
     private Integer carId;
     private Integer provinceId;
     private Double price;
+    private Integer createdBy;
+
+    public Integer getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(Integer createdBy) {
+        this.createdBy = createdBy;
+    }
 
     public Integer getId() {
         return id;
