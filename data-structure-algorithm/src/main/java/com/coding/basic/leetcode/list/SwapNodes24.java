@@ -34,6 +34,7 @@ public class SwapNodes24 {
             cur = cur.next;
         }
         return virtual.next;
+
     }
 
 }
